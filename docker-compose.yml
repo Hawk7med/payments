@@ -1,0 +1,74 @@
+version: '3'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-app
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: laravel
+      DB_USERNAME: laraveluser
+      DB_PASSWORD: your_laravel_db_password
+    working_dir: /var/www/html/src
+    volumes:
+      - ./src:/var/www/html/src
+      - ./apache.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - "8000:80"
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  # ... (rest of the services remain the same)
+
+  #MySQL Service
+  db:
+    image: mysql:5.7
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: your_mysql_root_password
+      MYSQL_USER: laraveluser
+      MYSQL_PASSWORD: your_laravel_db_password
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+  #phpMyAdmin Service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
