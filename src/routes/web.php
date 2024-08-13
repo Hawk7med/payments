@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use App\Http\Controllers\ZoneController;
+use App\Http\Controllers\ImmeubleController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\AppartementController;
+
+
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource('zones', ZoneController::class);
+Route::resource('immeubles', ImmeubleController::class);
+Route::resource('appartements', AppartementController::class);
+Route::resource('clients', ClientController::class);
