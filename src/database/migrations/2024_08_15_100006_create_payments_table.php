@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('zones', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->foreignId('client_appartement_id')->constrained('client_appartement')->onDelete('cascade');
+            $table->year('year');
+            $table->boolean('is_paid')->default(false);
+            $table->decimal('amount', 8, 2)->nullable();
+            $table->date('payment_date')->nullable();
             $table->timestamps();
         });
     }
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('zones');
+        Schema::dropIfExists('payments');
     }
 };
