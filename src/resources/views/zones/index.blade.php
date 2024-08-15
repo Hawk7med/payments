@@ -1,7 +1,9 @@
+@extends('layouts.app')
 
+@section('title', 'Liste des Zones')
 
-<div class="container">
-    <h1>Liste des Zones</h1>
+@section('content')
+    <h1 class="mb-4">Liste des Zones</h1>
     <a href="{{ route('zones.create') }}" class="btn btn-primary mb-3">Créer une nouvelle zone</a>
 
     @if(session('success'))
@@ -35,5 +37,4 @@
             @endforeach
         </tbody>
     </table>
-</div>
-
+@endsection

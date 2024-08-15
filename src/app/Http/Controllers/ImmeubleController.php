@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Immeuble;
 use App\Models\Zone;
+use App\Models\Appartement;
 use Illuminate\Http\Request;
 
 class ImmeubleController extends Controller
@@ -24,7 +25,7 @@ class ImmeubleController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
-            'address' => 'required',
+         
             'zone_id' => 'required|exists:zones,id',
         ]);
 
@@ -48,7 +49,7 @@ class ImmeubleController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
-            'address' => 'required',
+      
             'zone_id' => 'required|exists:zones,id',
         ]);
 
@@ -62,4 +63,10 @@ class ImmeubleController extends Controller
         $immeuble->delete();
         return redirect()->route('immeubles.index')->with('success', 'Immeuble deleted successfully.');
     }
+    public function getAppartements($immeubleId)
+{
+    $appartements = Appartement::where('immeuble_id', $immeubleId)->get();
+    return response()->json($appartements);
+}
+
 }

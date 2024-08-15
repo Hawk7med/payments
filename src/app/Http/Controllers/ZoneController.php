@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Zone;
+use App\Models\Immeuble;
 use Illuminate\Http\Request;
 
 class ZoneController extends Controller
@@ -50,4 +51,10 @@ class ZoneController extends Controller
         $zone->delete();
         return redirect()->route('zones.index')->with('success', 'Zone deleted successfully.');
     }
+    public function getImmeubles($zoneId)
+{
+    $immeubles = Immeuble::where('zone_id', $zoneId)->get();
+    return response()->json($immeubles);
+}
+
 }

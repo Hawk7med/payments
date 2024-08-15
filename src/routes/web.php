@@ -26,3 +26,7 @@ Route::resource('zones', ZoneController::class);
 Route::resource('immeubles', ImmeubleController::class);
 Route::resource('appartements', AppartementController::class);
 Route::resource('clients', ClientController::class);
+
+Route::get('zones/{zone}/immeubles', [ZoneController::class, 'getImmeubles']);
+Route::get('immeubles/{immeuble}/appartements', [ImmeubleController::class, 'getAppartements']);
+

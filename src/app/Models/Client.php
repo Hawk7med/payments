@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'cin',
+        'email',
+        'address',
+        'appartement_id',
+        'first_year',
+        // Add other attributes if needed
+    ];
     public function appartements()
 {
     return $this->belongsToMany(Appartement::class, 'client_appartement')->withPivot('first_year');

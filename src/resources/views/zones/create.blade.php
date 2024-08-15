@@ -1,4 +1,6 @@
+@extends('layouts.app')
 
+@section('title', 'Créer une nouvelle zone')
 
 @section('content')
 <div class="container">
@@ -23,4 +25,4 @@
         <button type="submit" class="btn btn-primary">Créer</button>
     </form>
 </div>
-
+@endsection
