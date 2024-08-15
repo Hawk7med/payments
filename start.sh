@@ -9,5 +9,5 @@ composer install
 # Generate key
 php artisan key:generate
 
-# Start Apache
-apache2-foreground
+# Start PHP-FPM
+php-fpm
