@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Zone;
+use App\Models\ClientAppartement;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -33,11 +34,25 @@ class ClientController extends Controller
             'first_year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
         ]);
 
-        $client = Client::create($request->except('appartement_id', 'first_year'));
-        $client->appartements()->attach($request->appartement_id, ['first_year' => $request->first_year]);
+        // Check if the apartment is already associated with a client
+        $exists = ClientAppartement::where('appartement_id', $request->appartement_id)->exists();
+        if ($exists) {
+            return redirect()->back()->withErrors(['appartement_id' => 'Cet appartement est déjà associé à un client.'])->withInput();
+        }
 
-        return redirect()->route('clients.index')->with('success', 'Client created successfully.');
+        // Create the client
+        $client = Client::create($request->except('appartement_id', 'first_year'));
+
+        // Create the ClientAppartement association
+        ClientAppartement::create([
+            'client_id' => $client->id,
+            'appartement_id' => $request->appartement_id,
+            'first_year' => $request->first_year
+        ]);
+
+        return redirect()->route('clients.index')->with('success', 'Client créé avec succès.');
     }
+
 
     public function edit(Client $client)
     {

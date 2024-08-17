@@ -20,6 +20,6 @@ class Client extends Model
     ];
     public function appartements()
 {
-    return $this->belongsToMany(Appartement::class, 'client_appartement')->withPivot('first_year');
+    return $this->belongsToMany(Appartement::class, 'client_appartements')->withPivot('first_year');
 }
 }

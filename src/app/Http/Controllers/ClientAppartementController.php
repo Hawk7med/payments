@@ -30,6 +30,18 @@ class ClientAppartementController extends Controller
             'first_year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
         ]);
 
+
+
+
+         // Vérifiez si l'association existe déjà
+            $exists = ClientAppartement::where('client_id', $request->client_id)
+            ->where('appartement_id', $request->appartement_id)
+            ->exists();
+
+        if ($exists) {
+        return redirect()->back()->withErrors(['msg' => 'Cet appartement est déjà associé à ce client.']);
+        }
+
         ClientAppartement::create($request->all());
 
         return redirect()->route('client_appartements.index')->with('success', 'Client-Appartement association created successfully.');

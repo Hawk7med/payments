@@ -3,12 +3,21 @@
 @section('content')
 <div class="container">
     <h1>Liste des Clients</h1>
-
+    <a href="{{ route('clients.create') }}" class="btn btn-primary mb-3">Créer une nouvelle client</a>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
+    @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
     <table class="table">
         <thead>

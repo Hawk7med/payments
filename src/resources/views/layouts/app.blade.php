@@ -35,6 +35,9 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('zones.index') }}">Gestion des Zones</a>
+            <a class="navbar-brand" href="{{ route('immeubles.index') }}">Gestion des immeubles</a>
+            <a class="navbar-brand" href="{{ route('clients.index') }}">Gestion des clients</a>
+            <a class="navbar-brand" href="{{ route('appartements.index') }}">Gestion des appartements</a>
         </div>
     </nav>
     <div class="container mt-4">
