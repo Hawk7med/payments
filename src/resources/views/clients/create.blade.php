@@ -26,6 +26,10 @@
             <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name') }}" required>
         </div>
         <div class="form-group">
+            <label for="tele">Tele</label>
+            <input type="text" class="form-control" id="tele" name="tele" value="{{ old('tele') }}" required>
+        </div>
+        <div class="form-group">
             <label for="cin">CIN</label>
             <input type="text" class="form-control" id="cin" name="cin" value="{{ old('cin') }}" required>
         </div>

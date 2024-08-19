@@ -30,6 +30,7 @@ class ClientController extends Controller
             'cin' => 'required|unique:clients|max:255',
             'email' => 'required|email|unique:clients|max:255',
             'address' => 'required',
+            'tel' => 'nullable|string|max:20', // Ajoutez cette ligne
             'appartement_id' => 'required|exists:appartements,id',
             'first_year' => 'required|integer|min:1900|max:' . (date('Y') + 1),
         ]);
@@ -68,6 +69,7 @@ class ClientController extends Controller
             'cin' => 'required|unique:clients,cin,' . $client->id . '|max:255',
             'email' => 'required|email|unique:clients,email,' . $client->id . '|max:255',
             'address' => 'required',
+            'tel' => 'required',
         ]);
 
         $client->update($request->all());

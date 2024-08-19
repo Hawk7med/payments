@@ -32,6 +32,10 @@
             <input type="text" class="form-control" id="cin" name="cin" value="{{ old('cin', $client->cin) }}" required>
         </div>
         <div class="form-group">
+            <label for="tele">Tele</label>
+            <input type="text" class="form-control" id="tele" name="tele" value="{{ old('tele') }}" required>
+        </div>
+        <div class="form-group">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $client->email) }}" required>
         </div>
