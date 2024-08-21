@@ -16,6 +16,7 @@ class ClientController extends Controller
     }
     
 
+    
     public function create()
     {
         $zones = Zone::all();
@@ -54,6 +55,28 @@ class ClientController extends Controller
         return redirect()->route('clients.index')->with('success', 'Client créé avec succès.');
     }
 
+   /* public function show(Client $client)
+    {
+        $clientAppartements = $client->appartements()->with('payments')->get();
+        $currentYear = date('Y');
+
+        return view('clients.show', compact('client', 'clientAppartements', 'currentYear'));
+    }*/
+    public function show(Client $client)
+    {
+        // Récupérer tous les appartements associés au client et leur historique de paiement
+        $clientAppartements = $client->clientAppartements()->with('appartement', 'payments')->get();
+        $currentYear = date('Y');
+
+        return view('clients.show', compact('client', 'clientAppartements', 'currentYear'));
+    }
+    public function addAppartement(Request $request, $clientId)
+    {
+        $client = Client::findOrFail($clientId);
+        $client->appartements()->attach($request->appartement_id, ['first_year' => $request->first_year]);
+
+        return redirect()->route('clients.show', $clientId);
+    }
 
     public function edit(Client $client)
     {
@@ -98,4 +121,5 @@ class ClientController extends Controller
 
         return view('clients.index', compact('clients'));
     }
+    
 }

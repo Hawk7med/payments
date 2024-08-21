@@ -68,5 +68,10 @@ class ImmeubleController extends Controller
     $appartements = Appartement::where('immeuble_id', $immeubleId)->get();
     return response()->json($appartements);
 }
+public function getImmeubles($zoneId)
+{
+    $immeubles = Immeuble::where('zone_id', $zoneId)->get();
+    return response()->json($immeubles);
+}
 
 }

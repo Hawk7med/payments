@@ -2,45 +2,12 @@
 
 @section('content')
 <div class="container">
-    <h1>Créer un nouveau client</h1>
+    <h1>Ajouter un Appartement pour {{ $client->first_name }} {{ $client->last_name }}</h1>
 
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{ route('clients.store') }}" method="POST">
+    <form action="{{ route('client-appartements.store') }}" method="POST">
         @csrf
 
-        <div class="form-group">
-            <label for="first_name">Prénom</label>
-            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name') }}" required>
-        </div>
-        <div class="form-group">
-            <label for="last_name">Nom</label>
-            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name') }}" required>
-        </div>
-        <div class="form-group">
-            <label for="tel">Tele</label>
-            <input type="text" class="form-control" id="tel" name="tel" value="{{ old('tel') }}" required>
-        </div>
-        <div class="form-group">
-            <label for="cin">CIN</label>
-            <input type="text" class="form-control" id="cin" name="cin" value="{{ old('cin') }}" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
-        </div>
-        <div class="form-group">
-            <label for="address">Adresse</label>
-            <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}" required>
-        </div>
+        <input type="hidden" name="client_id" value="{{ $client->id }}">
 
         <!-- Zone Dropdown -->
         <div class="form-group">
@@ -48,7 +15,7 @@
             <select id="zone_id" name="zone_id" class="form-control" required>
                 <option value="">Sélectionner une zone</option>
                 @foreach($zones as $zone)
-                    <option value="{{ $zone->id }}" {{ old('zone_id') == $zone->id ? 'selected' : '' }}>{{ $zone->name }}</option>
+                    <option value="{{ $zone->id }}">{{ $zone->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -70,11 +37,11 @@
         </div>
 
         <div class="form-group">
-            <label for="first_year">Année de première association</label>
-            <input type="number" class="form-control" id="first_year" name="first_year" value="{{ old('first_year') }}" required min="1900" max="{{ date('Y') + 1 }}">
+            <label for="first_year">Première année</label>
+            <input type="number" class="form-control" id="first_year" name="first_year" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Créer</button>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
     </form>
 </div>
 

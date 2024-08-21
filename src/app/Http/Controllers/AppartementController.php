@@ -55,4 +55,9 @@ class AppartementController extends Controller
         $appartement->delete();
         return redirect()->route('appartements.index')->with('success', 'Appartement deleted successfully.');
     }
+    public function getAppartements($immeubleId)
+    {
+        $appartements = Appartement::where('immeuble_id', $immeubleId)->get();
+        return response()->json($appartements);
+    }
 }

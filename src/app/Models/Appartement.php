@@ -16,9 +16,22 @@ class Appartement extends Model
     {
         return $this->belongsTo(Immeuble::class);
     }
-    
+    public function payments()
+    {
+        return $this->hasManyThrough(Payment::class, ClientAppartement::class, 'appartement_id', 'client_appartement_id');
+    }
     public function clients()
     {
         return $this->belongsToMany(Client::class, 'client_appartement')->withPivot('first_year');
     }
+
+
+
+
+    public function clientAppartements()
+    {
+        return $this->hasMany(ClientAppartement::class);
+    }
+
+
 }

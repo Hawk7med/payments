@@ -42,6 +42,7 @@
                     <td>{{ $client->address }}</td>
                     <td>
                         <a href="{{ route('clients.show', $client->id) }}" class="btn btn-info btn-sm">Détails</a>
+                        <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-primary">Modifier</a>
                     </td>
                 </tr>
             @endforeach

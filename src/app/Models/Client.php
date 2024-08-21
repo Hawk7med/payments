@@ -19,6 +19,10 @@ class Client extends Model
         'first_year',
         // Add other attributes if needed
     ];
+    public function clientAppartements()
+    {
+        return $this->hasMany(ClientAppartement::class);
+    }
     public function appartements()
 {
     return $this->belongsToMany(Appartement::class, 'client_appartements')->withPivot('first_year');

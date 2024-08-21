@@ -1,33 +1,4 @@
-db:
-    image: postgres:13
-    container_name: db
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: laravel
-      POSTGRES_USER: laravel
-      POSTGRES_PASSWORD: laravel
-    volumes:
-      - dbdata:/var/lib/postgresql/data
-    networks:
-      - app-network
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    restart: always
-    ports:
-      - 8081:80
-    networks:
-      - app-network
-    depends_on:
-      - db
-
-
-      @extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -49,40 +20,23 @@ db:
             <tr>
                 <th>Appartement</th>
                 <th>Première année</th>
-                <th>Historique de paiement</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($clientAppartements as $clientAppartement)
             <tr>
-      <td>{{ $clientAppartement->appartement->name }}</td> 
+                <td>{{ $clientAppartement->appartement->name }}</td>
                 <td>{{ $clientAppartement->first_year }}</td>
                 <td>
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>Année</th>
-                                <th>Payé</th>
-                                <th>Montant</th>
-                                <th>Date de paiement</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($clientAppartement->payments as $payment)
-                            <tr>
-                                <td>{{ $payment->year }}</td>
-                                <td>{{ $payment->is_paid ? 'Oui' : 'Non' }}</td>
-                                <td>{{ $payment->amount }} €</td>
-                                <td>{{ $payment->payment_date }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <a href="{{ route('client-appartements.details', $clientAppartement->id) }}" class="btn btn-info btn-sm">Détails</a>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+
+    <a href="{{ route('client-appartements.create', $client->id) }}" class="btn btn-secondary">Ajouter un Appartement</a>
 
     <h2>Années à venir</h2>
     <table class="table">
@@ -117,17 +71,16 @@ db:
         </tbody>
     </table>
 
-
+    <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-primary">Modifier</a>
 </div>
 
 <script>
-    function savePayment(clientId, year) {
-        const isPaid = $(`#paid-${year}`).is(':checked');
+    function savePayment(clientAppartementId, year) {
         const amount = $(`#amount-${year}`).val();
+        const isPaid = $(`#paid-${year}`).is(':checked');
 
-        // Envoyez une requête AJAX pour enregistrer le paiement
         $.ajax({
-            url: `/clients/${clientId}/payments`,
+            url: `/client-appartements/${clientAppartementId}/payments`,
             method: 'POST',
             data: {
                 year: year,
@@ -135,14 +88,19 @@ db:
                 amount: amount,
                 _token: '{{ csrf_token() }}'
             },
-            success: function() {
-                alert(`Paiement enregistré pour l'année ${year}`);
-                location.reload();
+            success: function(response) {
+                if (response.success) {
+                    alert(`Paiement pour l'année ${year} a été enregistré`);
+                    location.reload(); // Recharger la page pour afficher les modifications
+                }
             },
-            error: function() {
-                alert(`Erreur lors de l'enregistrement du paiement pour l'année ${year}`);
+            error: function(xhr) {
+                console.error(xhr.responseText); // Log des erreurs pour débogage
+                alert('Erreur lors de l\'enregistrement du paiement');
             }
         });
     }
 </script>
+
+
 @endsection

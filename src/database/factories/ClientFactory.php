@@ -20,8 +20,8 @@ class ClientFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'tel' => $this->faker->unique()->phoneNumber,
             'address' => $this->faker->address,
-            'appartement_id' => Appartement::factory(), // Crée un appartement associé
-            'first_year' => $this->faker->numberBetween(1900, date('Y')),
+            //'appartement_id' => Appartement::factory(), // Crée un appartement associé
+            //'first_year' => $this->faker->numberBetween(1900, date('Y')),
         ];
     }
 }
