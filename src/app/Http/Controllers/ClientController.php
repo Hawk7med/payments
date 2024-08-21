@@ -6,15 +6,36 @@ use App\Models\Client;
 use App\Models\Zone;
 use App\Models\ClientAppartement;
 use Illuminate\Http\Request;
+use App\Models\Immeuble;
 
 class ClientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $clients = Client::paginate(15); // Adjust the number as needed
-        return view('clients.index', compact('clients'));
+        $search = $request->input('search');
+        $immeubleId = $request->input('immeuble_id');
+
+        $query = Client::query();
+
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('first_name', 'like', "%{$search}%")
+                      ->orWhere('last_name', 'like', "%{$search}%")
+                      ->orWhere('cin', 'like', "%{$search}%");
+            });
+        }
+
+        if ($immeubleId) {
+            $query->whereHas('appartements', function ($query) use ($immeubleId) {
+                $query->where('immeuble_id', $immeubleId);
+            });
+        }
+
+        $clients = $query->paginate(10);
+        $immeubles = Immeuble::all();
+
+        return view('clients.index', compact('clients', 'immeubles'));
     }
-    
 
     
     public function create()

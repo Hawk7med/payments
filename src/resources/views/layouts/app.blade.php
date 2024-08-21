@@ -6,12 +6,29 @@
     <title>@yield('title', 'Gestion des Zones')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('fonts/materialdesignicons/css/materialdesignicons.min.css') }}">
+
     <style>
         body {
             background-color: #f8f9fa;
         }
         .navbar {
             margin-bottom: 20px;
+            background: linear-gradient(90deg, rgba(0,123,255,1) 0%, rgba(0,255,255,1) 100%);
+            background-size: 200% 200%;
+            animation: gradientAnimation 5s ease infinite;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+        .navbar-nav .nav-link {
+            color: white !important;
+            font-weight: 500;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ddd !important;
         }
         .container {
             background: #ffffff;
@@ -32,12 +49,25 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('zones.index') }}">Gestion des Zones</a>
-            <a class="navbar-brand" href="{{ route('immeubles.index') }}">Gestion des immeubles</a>
-            <a class="navbar-brand" href="{{ route('clients.index') }}">Gestion des clients</a>
-            <a class="navbar-brand" href="{{ route('appartements.index') }}">Gestion des appartements</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('immeubles.index') }}">Gestion des Immeubles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('clients.index') }}">Gestion des Clients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('appartements.index') }}">Gestion des Appartements</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
     <div class="container mt-4">
@@ -45,6 +75,5 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 </body>
 </html>
