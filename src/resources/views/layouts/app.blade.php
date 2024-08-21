@@ -6,11 +6,10 @@
     <title>@yield('title', 'Gestion des Zones')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('fonts/materialdesignicons/css/materialdesignicons.min.css') }}">
-
     <style>
         body {
             background-color: #f8f9fa;
+            margin-bottom: 60px; /* Reserve space for footer */
         }
         .navbar {
             margin-bottom: 20px;
@@ -26,9 +25,17 @@
         .navbar-nav .nav-link {
             color: white !important;
             font-weight: 500;
+            margin: 0 10px;
         }
         .navbar-nav .nav-link:hover {
             color: #ddd !important;
+        }
+        .navbar-nav {
+            text-align: center;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
         }
         .container {
             background: #ffffff;
@@ -46,33 +53,55 @@
         .btn {
             margin: 2px;
         }
+        .footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('zones.index') }}">Gestion des Zones</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('immeubles.index') }}">Gestion des Immeubles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('clients.index') }}">Gestion des Clients</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('appartements.index') }}">Gestion des Appartements</a>
-                    </li>
-                </ul>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ route('dashboard') }}">Tableau de Bord</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('zones.index') }}">Gestion des Zones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('immeubles.index') }}">Gestion des Immeubles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('clients.index') }}">Gestion des Clients</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('appartements.index') }}">Gestion des Appartements</a>
+                </li>
+            </ul>
+            @auth
+                <form action="{{ route('logout') }}" method="POST" class="d-flex">
+                    @csrf
+                    <button class="btn btn-outline-light ms-2" type="submit">Déconnexion</button>
+                </form>
+            @endauth
         </div>
-    </nav>
+    </div>
+</nav>
+
     <div class="container mt-4">
         @yield('content')
     </div>
+    <footer class="footer">
+        <p>&copy; {{ date('Y') }} Votre Application. Tous droits réservés.</p>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>

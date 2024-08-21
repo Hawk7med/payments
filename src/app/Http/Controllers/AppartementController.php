@@ -2,17 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appartement;
-use App\Models\Immeuble;
 use Illuminate\Http\Request;
-
+use App\Models\Appartement;
+use App\Models\Payment;
+use App\Models\Immeuble;
+use App\Models\Zone;
 class AppartementController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $appartements = Appartement::with('immeuble')->get();
-        return view('appartements.index', compact('appartements'));
+        $query = Appartement::query();
+    
+        if ($request->filled('zone_id')) {
+            $query->whereHas('immeuble', function ($query) use ($request) {
+                $query->where('zone_id', $request->input('zone_id'));
+            });
+        }
+    
+        if ($request->filled('immeuble_id')) {
+            $query->where('immeuble_id', $request->input('immeuble_id'));
+        }
+    
+        $appartements = $query->with(['clientAppartements' => function ($query) {
+            $query->with('payments');
+        }])->paginate(10);
+    
+        $immeubles = Immeuble::all();
+        $zones = Zone::all(); // Fetch zones for filtering
+    
+        return view('appartements.index', compact('appartements', 'immeubles', 'zones'));
     }
+    
+    public function show($id)
+    {
+        $appartement = Appartement::with(['clientAppartements' => function ($query) {
+            $query->with('client', 'payments');
+        }])->findOrFail($id);
+    
+        return view('appartements.show', compact('appartement'));
+    }
+    
+    
+    public function notPaid($year)
+    {
+        $appartements = Appartement::whereDoesntHave('payments', function ($query) use ($year) {
+            $query->where('year', $year)->where('is_paid', true);
+        })->get();
+
+        return view('appartements.notPaid', compact('appartements', 'year'));
+    }
+   
 
     public function create()
     {

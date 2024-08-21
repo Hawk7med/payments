@@ -56,7 +56,18 @@ public function updatePayments(Request $request)
         }
     }
     
-
+    public function updatePaper(Request $request, $id)
+    {
+        $clientAppartement = ClientAppartement::findOrFail($id);
+        $appartement = $clientAppartement->appartement;
+    
+        // Update the 'paper' status based on the checkbox
+        $appartement->paper = $request->has('paper') ? 'yes' : 'no';
+        $appartement->save();
+    
+        return redirect()->route('client-appartements.details', $clientAppartement->id)->with('success', 'Statut de la feuille mis à jour avec succès');
+    }
+    
     
     public function index()
     {

@@ -10,6 +10,7 @@ class Appartement extends Model
     use HasFactory;
     protected $fillable = [
         'name',
+        'paper',
         'immeuble_id', // Include if you have a foreign key for relationship
     ];
     public function immeuble()

@@ -12,20 +12,6 @@
         </div>
     </form>
 
-    <!-- Filter by Immeuble -->
-    <form method="GET" action="{{ route('clients.index') }}" class="mb-3">
-        <div class="input-group">
-            <select name="immeuble_id" class="form-select" onchange="this.form.submit()">
-                <option value="">Sélectionner un immeuble</option>
-                @foreach($immeubles as $immeuble)
-                    <option value="{{ $immeuble->id }}" {{ request()->input('immeuble_id') == $immeuble->id ? 'selected' : '' }}>
-                        {{ $immeuble->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </form>
-
     <a href="{{ route('clients.create') }}" class="btn btn-primary mb-3">Créer un nouveau client</a>
     @if(session('success'))
         <div class="alert alert-success">
@@ -42,46 +28,49 @@
         </div>
     @endif
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Prénom</th>
-                <th>Nom</th>
-                <th>CIN</th>
-                <th>Email</th>
-                <th>Téléphone</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($clients as $client)
+    <!-- Table responsive wrapper -->
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>{{ $client->id }}</td>
-                    <td>{{ $client->first_name }}</td>
-                    <td>{{ $client->last_name }}</td>
-                    <td>{{ $client->cin }}</td>
-                    <td>{{ $client->email }}</td>
-                    <td>{{ $client->tel }}</td>
-                    <td>
-                        <a href="{{ route('clients.show', $client->id) }}" class="btn btn-info btn-sm">
-                            <i class="mdi mdi-eye"></i>
-                        </a>
-                        <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-primary btn-sm">
-                            <i class="mdi mdi-pencil"></i>
-                        </a>
-                        <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?')">
-                                <i class="mdi mdi-delete"></i>
-                            </button>
-                        </form>
-                    </td>
+                    <th>ID</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th class="d-none d-sm-table-cell">CIN</th> <!-- Hidden on extra small screens -->
+                    <th class="d-none d-md-table-cell">Email</th> <!-- Hidden on small screens -->
+                    <th>Téléphone</th>
+                    <th>Actions</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach($clients as $client)
+                    <tr>
+                        <td>{{ $client->id }}</td>
+                        <td>{{ $client->first_name }}</td>
+                        <td>{{ $client->last_name }}</td>
+                        <td class="d-none d-sm-table-cell">{{ $client->cin }}</td> <!-- Hidden on extra small screens -->
+                        <td class="d-none d-md-table-cell">{{ $client->email }}</td> <!-- Hidden on small screens -->
+                        <td>{{ $client->tel }}</td>
+                        <td>
+                            <a href="{{ route('clients.show', $client->id) }}" class="btn btn-info btn-sm">
+                                <i class="mdi mdi-eye"></i>
+                            </a>
+                            <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-primary btn-sm">
+                                <i class="mdi mdi-pencil"></i>
+                            </a>
+                            <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?')">
+                                    <i class="mdi mdi-delete"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
     {{ $clients->links() }}
 </div>

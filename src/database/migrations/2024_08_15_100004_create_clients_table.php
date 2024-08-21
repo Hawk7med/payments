@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('cin')->unique();
             $table->string('tel')->unique()->nullable(); // Make tel nullable
-
+            
             $table->string('email')->nullable();
             $table->string('address')->nullable();
             $table->timestamps();

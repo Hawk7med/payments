@@ -13,7 +13,7 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $immeubleId = $request->input('immeuble_id');
+       
 
         $query = Client::query();
 
@@ -25,16 +25,12 @@ class ClientController extends Controller
             });
         }
 
-        if ($immeubleId) {
-            $query->whereHas('appartements', function ($query) use ($immeubleId) {
-                $query->where('immeuble_id', $immeubleId);
-            });
-        }
+      
 
         $clients = $query->paginate(10);
-        $immeubles = Immeuble::all();
+       
 
-        return view('clients.index', compact('clients', 'immeubles'));
+        return view('clients.index', compact('clients'));
     }
 
     

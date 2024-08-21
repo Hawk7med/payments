@@ -14,6 +14,26 @@
         </div>
     </div>
 
+    <!-- Card that changes color based on checkbox -->
+    <div class="card mb-3 {{ $clientAppartement->appartement->paper === 'yes' ? 'border-success' : 'border-danger' }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ $clientAppartement->appartement->paper === 'yes' ? 'Feuille de levée prise' : 'Prendre la feuille de levée de main' }}</h5>
+            <p class="card-text">
+                Statut: {{ $clientAppartement->appartement->paper === 'yes' ? 'Oui' : 'Non' }}
+            </p>
+            <form action="{{ route('client-appartements.update-paper', $clientAppartement->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="paper" id="paperCheckbox" 
+                        {{ $clientAppartement->appartement->paper === 'yes' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="paperCheckbox">Marquer comme pris</label>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Enregistrer</button>
+            </form>
+        </div>
+    </div>
+
     <h2>Historique de paiement</h2>
     <form action="{{ route('client-appartements.update-payments') }}" method="POST">
         @csrf
@@ -29,7 +49,7 @@
             <tbody>
                 @php
                     $currentYear = date('Y');
-                    $endYear = $currentYear + 2; // Show payment options for the next 5 years
+                    $endYear = $currentYear + 2;
                 @endphp
 
                 @for ($year = $clientAppartement->first_year; $year <= $endYear; $year++)
