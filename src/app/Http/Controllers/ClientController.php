@@ -10,6 +10,10 @@ use App\Models\Immeuble;
 
 class ClientController extends Controller
 {
+    public function teste()
+{
+    return view('clients.teste');
+}
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -39,6 +43,31 @@ class ClientController extends Controller
         $zones = Zone::all();
         return view('clients.create', compact('zones'));
     }
+    public function clientsNotPaid(Request $request)
+    {
+        \Log::info('clientsNotPaid method called');
+        \Log::info('Year received: ' . $request->input('year'));
+    
+        $year = $request->input('year');
+        if (!$year) {
+            return redirect()->route('clients.index')->withErrors('Veuillez entrer une année.');
+        }
+    
+        $clients = Client::whereHas('clientAppartements', function ($query) use ($year) {
+            $query->whereHas('payments', function ($query) use ($year) {
+                $query->where('year', $year)->where('is_paid', false);
+            });
+        })->with(['clientAppartements' => function ($query) use ($year) {
+            $query->whereHas('payments', function ($query) use ($year) {
+                $query->where('year', $year)->where('is_paid', false);
+            });
+        }])->get();
+    
+        return view('clients.not-paid', compact('clients', 'year'));
+    }
+    
+
+
 
     public function store(Request $request)
     {

@@ -83,6 +83,10 @@
                     <a class="nav-link" href="{{ route('clients.index') }}">Gestion des Clients</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="{{ route('clients.notPaid') }}">Clients Non Payés</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('appartements.index') }}">Gestion des Appartements</a>
                 </li>
             </ul>

@@ -22,10 +22,12 @@ use App\Http\Controllers\ClientAppartementController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::middleware(['auth', 'admin'])->group(function () {
+/*Route::middleware(['auth', 'admin'])->group(function () {
     // Admin routes
+});*/
+Route::get('/test-simple', function() {
+    return 'Ceci est un test simple';
 });
-
 Route::resource('zones', ZoneController::class);
 Route::resource('immeubles', ImmeubleController::class);
 Route::resource('appartements', AppartementController::class);
@@ -72,3 +74,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 Route::resource('appartements', AppartementController::class);
 Route::get('appartements/not-paid/{year}', [AppartementController::class, 'notPaid'])->name('appartements.notPaid');
+
+Route::get('/clients/not-paid', [ClientController::class, 'clientsNotPaid'])->name('clients.notPaid');
+
+Route::get('/clients/teste', [ClientController::class, 'teste'])->name('clients.teste');

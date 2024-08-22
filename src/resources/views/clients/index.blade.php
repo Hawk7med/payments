@@ -4,7 +4,23 @@
 <div class="container">
     <h1>Liste des Clients</h1>
 
-    <!-- Search Form -->
+  <!-- Search Form -->
+  <form method="GET" action="{{ route('clients.notPaid') }}" class="mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="year">Année</label>
+                <input type="number" name="year" id="year" class="form-control" placeholder="Entrez une année" value="{{ request('year') }}">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary mt-4">Filtrer</button>
+        </div>
+    </div>
+</form>
+
+
+    <!-- Formulaire de recherche existant -->
     <form method="GET" action="{{ route('clients.index') }}" class="mb-3">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Rechercher par nom ou CIN" value="{{ request()->input('search') }}">
@@ -13,6 +29,8 @@
     </form>
 
     <a href="{{ route('clients.create') }}" class="btn btn-primary mb-3">Créer un nouveau client</a>
+
+    <!-- Messages de succès et d'erreurs -->
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
