@@ -10,10 +10,7 @@ use App\Models\Immeuble;
 
 class ClientController extends Controller
 {
-    public function teste()
-{
-    return view('clients.teste');
-}
+
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -28,12 +25,7 @@ class ClientController extends Controller
                       ->orWhere('cin', 'like', "%{$search}%");
             });
         }
-
-      
-
         $clients = $query->paginate(10);
-       
-
         return view('clients.index', compact('clients'));
     }
 

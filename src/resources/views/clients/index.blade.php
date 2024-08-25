@@ -69,7 +69,7 @@
                         <td class="d-none d-sm-table-cell">{{ $client->cin }}</td> <!-- Hidden on extra small screens -->
                         <td class="d-none d-md-table-cell">{{ $client->email }}</td> <!-- Hidden on small screens -->
                         <td>{{ $client->tel }}</td>
-                        <td>
+                     <!--   <td>
                             <a href="{{ route('clients.show', $client->id) }}" class="btn btn-info btn-sm">
                                 <i class="mdi mdi-eye"></i>
                             </a>
@@ -83,7 +83,23 @@
                                     <i class="mdi mdi-delete"></i>
                                 </button>
                             </form>
-                        </td>
+                        </td> -->
+                        <td>
+                        <a href="{{ route('clients.show', $client->id) }}" class="btn btn-info btn-sm">
+                            <img src="{{ asset('assets/icons/eye.svg') }}" alt="Voir" width="16" height="16">
+                        </a>
+                        <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-primary btn-sm">
+                            <img src="{{ asset('assets/icons/pencil.svg') }}" alt="Éditer" width="16" height="16">
+                        </a>
+                        <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?')">
+                                <img src="{{ asset('assets/icons/trash.svg') }}" alt="Supprimer" width="16" height="16">
+                            </button>
+                        </form>
+                    </td>
+
                     </tr>
                 @endforeach
             </tbody>

@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Gestion des Zones')</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
-    <style>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet"> -->
+    <link href="{{ asset('assets/css/materialdesignicons.min.css') }}" rel="stylesheet">
+  <style>
         body {
             background-color: #f8f9fa;
             margin-bottom: 60px; /* Reserve space for footer */
@@ -82,10 +84,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('clients.index') }}">Gestion des Clients</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ route('clients.notPaid') }}">Clients Non Payés</a>
-                </li>
-
+              
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('appartements.index') }}">Gestion des Appartements</a>
                 </li>
@@ -106,7 +105,8 @@
     <footer class="footer">
         <p>&copy; {{ date('Y') }} Votre Application. Tous droits réservés.</p>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</body>
+   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 </html>

@@ -18,16 +18,30 @@ use App\Http\Controllers\ImmeubleController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AppartementController;
 use App\Http\Controllers\ClientAppartementController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ChangePasswordController;
+use App\Http\Controllers\AuthController;
 
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/change-password', [AuthController::class, 'showChangePasswordForm'])->name('change-password');
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
+    
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 /*Route::middleware(['auth', 'admin'])->group(function () {
     // Admin routes
 });*/
-Route::get('/test-simple', function() {
-    return 'Ceci est un test simple';
-});
 Route::resource('zones', ZoneController::class);
 Route::resource('immeubles', ImmeubleController::class);
 Route::resource('appartements', AppartementController::class);
@@ -75,6 +89,17 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::resource('appartements', AppartementController::class);
 Route::get('appartements/not-paid/{year}', [AppartementController::class, 'notPaid'])->name('appartements.notPaid');
 
-Route::get('/clients/not-paid', [ClientController::class, 'clientsNotPaid'])->name('clients.notPaid');
+Route::get('/client/not-paid', [ClientController::class, 'clientsNotPaid'])->name('clients.notPaid');
+    // Routes protégées par le middleware admin
+    Route::middleware(['admin'])->group(function () {
+        Route::get('/users', [AuthController::class, 'index'])->name('users.index');
+        Route::get('/users/add', [AuthController::class, 'showAddUserForm'])->name('users.add');
+        Route::post('/users/add', [AuthController::class, 'addUser']);
+    });
+});
 
-Route::get('/clients/teste', [ClientController::class, 'teste'])->name('clients.teste');
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
+
