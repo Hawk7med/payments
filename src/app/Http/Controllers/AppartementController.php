@@ -32,7 +32,7 @@ class AppartementController extends Controller
     
         return view('appartements.index', compact('appartements', 'immeubles', 'zones'));
     }
-    
+   
     public function show($id)
     {
         $appartement = Appartement::with(['clientAppartements' => function ($query) {
@@ -42,6 +42,17 @@ class AppartementController extends Controller
         return view('appartements.show', compact('appartement'));
     }
     
+     /*
+    public function show($id)
+{
+    // Récupérer le ClientAppartement avec ses relations
+    $clientAppartement = ClientAppartement::with(['client', 'appartement', 'payments'])
+        ->findOrFail($id);
+
+    // Retourner la vue avec les données du ClientAppartement
+     return view('client-appartements.details', compact('clientAppartement'));
+}*/
+
     
     public function notPaid($year)
     {

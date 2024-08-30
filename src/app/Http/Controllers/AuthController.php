@@ -63,7 +63,7 @@ class AuthController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $users = User::where('role', '!=', 'super admin')->get();
         return view('auth.users-list', compact('users'));
     }
     public function showChangePasswordForm()
@@ -71,8 +71,10 @@ class AuthController extends Controller
         return view('auth.change-password');
     }
 
+  
     public function changePassword(Request $request)
     {
+        // Validate the form inputs
         $request->validate([
             'current_password' => 'required',
             'new_password' => 'required|min:8|confirmed',
@@ -80,13 +82,24 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
+        // Check if the provided current password matches the user's actual current password
         if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'The provided password does not match your current password.']);
+            return back()->withErrors(['current_password' => 'Le mot de passe actuel ne correspond pas.']);
         }
 
+        // Update the user's password
         $user->password = Hash::make($request->new_password);
         $user->save();
 
-        return redirect('dashboard')->with('success', 'Password changed successfully.');
+        // Redirect to the dashboard with a success message
+        return redirect()->route('dashboard')->with('success', 'Le mot de passe a été changé avec succès.');
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'Utilisateur supprimé avec succès.');
     }
 }

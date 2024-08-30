@@ -1,36 +1,32 @@
 @extends('layouts.app')
-
+@section('style')
+<link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+@endsection
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Connexion</div>
-
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header text-center">
+                    <h3 class="fw-light my-4">Connexion</h3>
+                </div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">Adresse E-mail</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" required autofocus>
-                            </div>
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Adresse E-mail</label>
+                            <input id="email" type="email" class="form-control form-control-lg" name="email" required autofocus>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">Mot de Passe</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-                            </div>
+                        <div class="form-group mb-4">
+                            <label for="password" class="form-label">Mot de Passe</label>
+                            <input id="password" type="password" class="form-control form-control-lg" name="password" required>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">Connexion</button>
-                            </div>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <button type="submit" class="btn btn-primary btn-lg">Connexion</button>
+                        
                         </div>
                     </form>
                 </div>

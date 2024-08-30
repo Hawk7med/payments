@@ -95,11 +95,18 @@ Route::get('/client/not-paid', [ClientController::class, 'clientsNotPaid'])->nam
         Route::get('/users', [AuthController::class, 'index'])->name('users.index');
         Route::get('/users/add', [AuthController::class, 'showAddUserForm'])->name('users.add');
         Route::post('/users/add', [AuthController::class, 'addUser']);
+        Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     });
 });
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return redirect()->route('login');
-});
+});*/
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    }
+    return view('landing');
+})->name('landing');
 
 

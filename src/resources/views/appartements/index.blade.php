@@ -74,12 +74,15 @@
                         @endforeach
                     </td>
                     <td>
-                        <a href="{{ route('client-appartements.details', $appartement->id) }}" class="btn btn-info btn-sm">Détails</a>
+                        <a href="{{ route('appartements.show', $appartement->id) }}" class="btn btn-info btn-sm">Détails</a>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
+    <div class="d-flex justify-content-center mt-4">
     {{ $appartements->links() }}
+</div>
+
 </div>
 @endsection

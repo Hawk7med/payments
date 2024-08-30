@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Gestion des Zones')</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- Local Bootstrap CSS -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet"> -->
+    <!-- Local Material Design Icons CSS -->
     <link href="{{ asset('assets/css/materialdesignicons.min.css') }}" rel="stylesheet">
-  <style>
+    <link href="././css/app.css" rel="stylesheet">
+    @yield('style')
+    <style>
+     
         body {
             background-color: #f8f9fa;
             margin-bottom: 60px; /* Reserve space for footer */
@@ -67,46 +70,72 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{{ route('dashboard') }}">Tableau de Bord</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('zones.index') }}">Gestion des Zones</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('immeubles.index') }}">Gestion des Immeubles</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('clients.index') }}">Gestion des Clients</a>
-                </li>
-              
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('appartements.index') }}">Gestion des Appartements</a>
-                </li>
-            </ul>
-            @auth
-                <form action="{{ route('logout') }}" method="POST" class="d-flex">
-                    @csrf
-                    <button class="btn btn-outline-light ms-2" type="submit">Déconnexion</button>
-                </form>
-            @endauth
+    @auth
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ route('dashboard') }}">Tableau de Bord</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('zones.index') }}">Gestion des Zones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('immeubles.index') }}">Gestion des Immeubles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('clients.index') }}">Gestion des Clients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('appartements.index') }}">Gestion des Appartements</a>
+                    </li>
+                    @if((Auth::user()->role === 'admin')||Auth::user()->role === 'super admin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('users.index') }}">Gérer les utilisateurs</a>
+                        </li>
+                    @endif
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('change-password') }}">Changer le mot de passe</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="btn btn-outline-light" type="submit">Déconnexion</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+    @endauth
 
     <div class="container mt-4">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         @yield('content')
     </div>
+
     <footer class="footer">
         <p>&copy; {{ date('Y') }} Votre Application. Tous droits réservés.</p>
     </footer>
-   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+
+    <!-- Local Bootstrap JS -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Local jQuery -->
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+</body>
 </html>
