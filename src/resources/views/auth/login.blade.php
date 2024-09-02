@@ -11,6 +11,17 @@
                     <h3 class="fw-light my-4">Connexion</h3>
                 </div>
                 <div class="card-body">
+                    <!-- Affichage des erreurs de validation -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -26,7 +37,6 @@
 
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <button type="submit" class="btn btn-primary btn-lg">Connexion</button>
-                        
                         </div>
                     </form>
                 </div>
